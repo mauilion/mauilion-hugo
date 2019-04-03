@@ -66,6 +66,9 @@ disqusShortname = "mauilion"
   [[params.social]]
     name = "linkedin"
     url = "https://linkedin.com/in/mauilion"
+  [[params.social]]
+    name = "keybase"
+    url = "https://keybase.io/mauilion"
 
 [menu]
 
