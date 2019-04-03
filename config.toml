@@ -17,9 +17,9 @@ disqusShortname = "mauilion"
   name = "Duffie Cooley"
 
 [blackfriday]
-  # hrefTargetBlank = true
-  # noreferrerLinks = true
-  # nofollowLinks = true
+  hrefTargetBlank = true
+  noreferrerLinks = true
+  nofollowLinks = true
 
 [taxonomies]
   tag = "tags"
