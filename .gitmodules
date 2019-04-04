@@ -1,6 +1,7 @@
 [submodule "themes/hermit"]
 	path = themes/hermit
 	url = https://github.com/Track3/hermit.git
-[submodule "mauilion.github.io"]
-	path = mauilion.github.io
-	url = git@github.com:mauilion/mauilion.github.io.git
+[submodule "mauilion.dev"]
+	path = mauilion.dev
+	url = git@github.com:mauilion/mauilion.dev.git
+	branch = master
