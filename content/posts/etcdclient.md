@@ -1,7 +1,7 @@
 ---
-title: "A manifest that can be used to interact with etcd on kubeadm clusters"
+title: "a static pod manifest that exposes an preconfigure etcdclient"
 date: 2019-03-18T16:25:23-07:00
-toc: false
+toc: true
 tags:
   - etcd
 asciinema: true
