@@ -1,11 +1,13 @@
 ---
-title: "a static pod manifest that exposes an preconfigure etcdclient"
+title: "debugging tools: a preconfigured etcdclient static pod"
 date: 2019-03-18T16:25:23-07:00
 toc: true
 images:
 - https://dbdb.io/media/logos/etcd.png
 tags:
   - etcd
+  - debugging
+  - tools
 asciinema: true
 ---
 
