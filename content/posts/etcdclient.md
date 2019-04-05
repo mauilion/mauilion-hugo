@@ -6,10 +6,11 @@ tags:
 - etcd
 - debugging
 - tools
+images:
+- https://dbdb.io/media/logos/etcd.png
 asciinema: true
 ---
 
-![](/etcdctl_kubeadm.png)
 
 In this post I am going to discuss [git.io/etcdclient.yaml](https://git.io/etcdclient.yaml) and why it's neat!
 <!--more-->
