@@ -10,7 +10,9 @@ asciinema: true
 In this post I am going to discuss [git.io/etcdclient.yaml](https://git.io/etcdclient.yaml) and why it's neat!
 <!--more-->
 
-When putting together content for a series of blog posts that I am doing around etcd recovery and failure scenarios, I realized that I was configuring the etcdclient to interact with the etcd cluster that kubeadm stands up. 
+When putting together content for a series of blog posts that I am doing around etcd recovery and failure scenarios, I realized that I was configuring the etcdclient to interact with the etcd cluster that kubeadm stands up.
+
+I wanted to create a static pod that would sit on the same node as the static pod that operates the etcd server so that I can use it to troubleshoot the etcd cluster that kubeadm is bringing up.
 
 [git.io/etcdclient.yaml](https://git.io/etcdclient.yaml) is an attempt to DRY (do not repeat yourself) work up.
 
