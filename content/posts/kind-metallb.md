@@ -26,7 +26,7 @@ This mechanism is used to expose services inside the cluster using an external L
 
 Most implementations of this are relatively naive. They place all of the available nodes behing the load balancer and use tcp port knocking to determine if the node is "healthy" enough to forward traffic to it.
 
-With Metallb there is a different set of assumptions.
+With Metallb there are a different set of assumptions.
 
 Metallb can operate in two distinct modes.
 
@@ -119,5 +119,5 @@ And we can curl it!
 
 That's all for now hit me up on [twitter](https://twitter.com/mauilion) or [k8s slack](https://kubernetes.slack.com/team/U37TLLWAU) with questions!
 
-
+Shout-out to Jan Guth for the idea on this post!
 
