@@ -2,10 +2,9 @@
 title: "Using MetalLb with Kind"
 date: 2019-04-17T10:44:33-07:00
 draft: false
-toc: true
 asciinema: true
 images:
-  - https://github.com/danderson/metallb/blob/master/website/static/images/logo.png
+  - https://raw.githubusercontent.com/danderson/metallb/master/website/static/images/logo.png
 tags:
   - metallb
   - kind
@@ -14,7 +13,7 @@ tags:
 
 ### Preamble:
 
-When using metallb with king we are going to deploy it in `l2-mode` This means that we need to be able to connect to the ip addresses of the node subnet.
+When using metallb with kind we are going to deploy it in `l2-mode`. This means that we need to be able to connect to the ip addresses of the node subnet.
 If you are using kind on Mac or Windows this will require you to add a route to your laptop routing the subnet used by your kind cluster to the vm that is hosting it.
 If you are using linux to host a kind cluster. You will not need to do this as the kind node ip addresses are directly attached.
 
@@ -24,7 +23,7 @@ Kubernetes on bare metal doesn't come with an easy integration for things like s
 
 This mechanism is used to expose services inside the cluster using an external Load Balancing mechansim that understands how to route traffic down to the pods defined by that service.
 
-Most implementations of this are relatively naive. They place all of the available nodes behing the load balancer and use tcp port knocking to determine if the node is "healthy" enough to forward traffic to it.
+Most implementations of this are relatively naive. They place all of the available nodes behind the load balancer and use tcp port knocking to determine if the node is "healthy" enough to forward traffic to it.
 
 With Metallb there are a different set of assumptions.
 
@@ -38,13 +37,6 @@ the bgp mode relies on ecmp to balance traffic back to the pods. ECMP is a great
 
 That said I haven't created a bgp router for my kind cluster so we wil use the l2-mode for this experiment.
 
-First let's create a service of type loadbalancer and see what happens before we install metallb.
-
-I am going to use the echo server for this. I prefer the one built by inanimate. Here is the [source](https://github.com/InAnimaTe/echo-server) and image: `inanimate/echo-server`
-
-{{< asciinema key="km-echo1" rows="30" preload="1" >}}
-
-We can see that the `EXTERNAL-IP` field is `pending`. This is because there is nothing available in the cluster to manage this type of service.
 
 ### Let's do this thing!
 
@@ -74,6 +66,17 @@ I am using a pretty neat tool called [`jid`](https://github.com/simeji/jid) here
 So we can see that there is an allocated network of `172.17.0.0/16` in my case.
 
 Let's swipe the last 10 ip addresses from that allocation and use them for the metallb configuration.
+
+### Now we are going to deploy a service!
+
+First let's create a service of type loadbalancer and see what happens before we install metallb.
+
+I am going to use the echo server for this. I prefer the one built by inanimate. Here is the [source](https://github.com/InAnimaTe/echo-server) and image: `inanimate/echo-server`
+
+{{< asciinema key="km-echo1" rows="30" preload="1" >}}
+
+We can see that the `EXTERNAL-IP` field is `pending`. This is because there is nothing available in the cluster to manage this type of service.
+
 
 ### Now on to the metallb part!
 
