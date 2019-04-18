@@ -50,18 +50,18 @@ nodes:
 - role: worker
 ```
 
-{{< asciinema key="km-bringup" rows="30" preload="1" >}}
+{{< asciinema key="km-bringup" >}}
 
 Then we need to see if we can ping the node ip of the nodes themselves.
 
 
-{{< asciinema key="km-ping" rows="30" preload="1" >}}
+{{< asciinema key="km-ping" >}}
 
 At this point we need to determine the network that is being used for the node ip pool. Since kind nodes are associated with the docker network named "bridge" we can inspect that directly. 
 
 I am using a pretty neat tool called [`jid`](https://github.com/simeji/jid) here that is a repl for json.
 
-{{< asciinema key="km-inspect" rows="30" preload="1" >}}
+{{< asciinema key="km-inspect" minute="0" second="16" >}}
 
 So we can see that there is an allocated network of `172.17.0.0/16` in my case.
 
@@ -73,7 +73,7 @@ First let's create a service of type loadbalancer and see what happens before we
 
 I am going to use the echo server for this. I prefer the one built by inanimate. Here is the [source](https://github.com/InAnimaTe/echo-server) and image: `inanimate/echo-server`
 
-{{< asciinema key="km-echo1" rows="30" preload="1" >}}
+{{< asciinema key="km-echo1" >}}
 
 We can see that the `EXTERNAL-IP` field is `pending`. This is because there is nothing available in the cluster to manage this type of service.
 
@@ -84,7 +84,7 @@ First read the docs https://metallb.universe.tf/installation/
 
 Then we can get started on installing this to our cluster.
 
-{{< asciinema key="km-metallb-install" rows="30" preload="1" >}}
+{{< asciinema key="km-metallb-install" >}}
 
 We can see that metallb is now installed but we aren't done yet!
 
@@ -114,7 +114,7 @@ You can apply this to your cluster with `kubectl apply -f https://git.io/km-conf
 
 Let's see what happens when we apply this.
 
-{{< asciinema key="km-config" rows="28" preload="1" >}}
+{{< asciinema key="km-config" minute="0" second="02" >}}
 
 We can see the svc get's an ip address immediatly.
 

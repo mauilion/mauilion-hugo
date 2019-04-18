@@ -1,15 +1,15 @@
 <p>
     <asciinema-player
         src="/casts/{{ with .Get "key" }}{{ . }}{{ end }}.cast"
-        cols="{{ if .Get "cols" }}{{ .Get "cols" }}{{ else }}640{{ end }}"
-        rows="{{ if .Get "rows" }}{{ .Get "rows" }}{{ else }}10{{ end }}"
+        cols="{{ if .Get "cols" }}{{ .Get "cols" }}{{ else }}200{{ end }}"
+        rows="{{ if .Get "rows" }}{{ .Get "rows" }}{{ else }}28{{ end }}"
         {{ if .Get "autoplay" }}autoplay="{{ .Get "autoplay" }}"{{ end }}
-        {{ if .Get "preload" }}preload="{{ .Get "preload" }}"{{ end }}
+        preload="true"
         {{ if .Get "loop" }}loop="{{ .Get "loop" }}"{{ end }}
         start-at="{{ if .Get "start-at" }}{{ .Get "start-at" }}{{ else }}0{{ end }}"
         speed="{{ if .Get "speed" }}{{ .Get "speed" }}{{ else }}1{{ end }}"
         {{ if .Get "idle-time-limit" }}idle-time-limit="{{ .Get "idle-time-limit" }}"{{ end }}
-        {{ if .Get "poster" }}poster="{{ .Get "poster" }}"{{ end }}
+        poster="npt:{{ if .Get "minute" }}{{ .Get "minute" }}{{ else }}1{{ end }}:{{ if .Get "second" }}{{ .Get "second" }}{{ else }}00{{ end }}"
         {{ if .Get "font-size" }}font-size="{{ .Get "font-size" }}"{{ end }}
         {{ if .Get "theme" }}theme="{{ .Get "theme" }}"{{ end }}
         {{ if .Get "title" }}title="{{ .Get "title" }}"{{ end }}
