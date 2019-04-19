@@ -25,13 +25,34 @@ This mechanism is used to expose services inside the cluster using an external L
 
 Most implementations of this are relatively naive. They place all of the available nodes behind the load balancer and use tcp port knocking to determine if the node is "healthy" enough to forward traffic to it.
 
+You can define an `externalTrafficPolicy` on a service of type `LoadBalancer` and this can help get the behaviour that you want. From the docs:
+```
+$ kubectl explain service.spec.externalTrafficPolicy
+KIND:     Service
+VERSION:  v1
+
+FIELD:    externalTrafficPolicy <string>
+
+DESCRIPTION:
+     externalTrafficPolicy denotes if this Service desires to route external
+     traffic to node-local or cluster-wide endpoints. "Local" preserves the
+     client source IP and avoids a second hop for LoadBalancer and Nodeport type
+     services, but risks potentially imbalanced traffic spreading. "Cluster"
+     obscures the client source IP and may cause a second hop to another node,
+     but should have good overall load-spreading.
+```
+And Metallb has a decent write up on what they do when you configure this stuff:
+
+https://metallb.universe.tf/usage/#traffic-policies
+
+
 With Metallb there are a different set of assumptions.
 
 Metallb can operate in two distinct modes.
 
-A Layer 2 mode that will use vrrp to arp out for the external ip or VIP on the lan.
+A Layer 2 mode that will use vrrp to arp out for the external ip or VIP on the lan. This means that all traffic for the service will be attracted to only one node and dispersed across the pods defined by the service fromt there.
 
-A bgp mode that will announce the external ip or VIP from all of the nodes where at least one pod is running.
+A bgp mode with `externalTrafficPolicy: local` metallb will announce the external ip or VIP from all of the nodes where at least one pod is running.
 
 the bgp mode relies on ecmp to balance traffic back to the pods. ECMP is a great solution for this problem and I HIGHLY recommend you use this model if you can.
 
@@ -116,7 +137,7 @@ Let's see what happens when we apply this.
 
 {{< asciinema key="km-config" minute="0" second="02" >}}
 
-We can see the svc get's an ip address immediatly.
+We can see the svc get's an ip address immediately.
 
 And we can curl it!
 
