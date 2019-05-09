@@ -27,7 +27,7 @@ In this post I want to show a few things.
 1. bring up a cluster with that image
 1. validate that the changes have the desired affect.
 
-### Prereqs
+### Prerequisites
 
 There is a pretty handy tool called `gimme` put out by the travis-ci folks.
 
@@ -35,7 +35,7 @@ This in my opinion is the "best" way to setup a go environment.
 
 Read more about it [here](https://github.com/travis-ci/gimme)
 
-For this setup I am going to make a local directory called `k8s-dev` and leverage [direnv](https://direnv.net/) to configure go in that directory.
+For this setup I am going to leverage [direnv](https://direnv.net/) to configure go.
 
 We need a system that has [gimme](https://github.com/travis-ci/gimme#installation--usage) and [direnv](https://direnv.net/) installed.
 
@@ -48,7 +48,8 @@ For this next bit I have created a repo you can checkout and make use of.
 {{< asciinema key="k8dev-go" >}}
 
 In the cast you can see us checking out [mauilion/k8s-dev](https://github.com/mauilion/k8s-dev)
-Then we move and use gimme to configure go.
+Then we move into the directory and use gimme to configure go via direnv.
+
 
 We then edit the `.envrc` file.
 
@@ -66,16 +67,16 @@ go version >&2;
 export GIMME_ENV='/home/dcooley/.gimme/envs/go1.12.5.linux.amd64.env';
 
 ```
-I added the `GOPATH` variable to ensure that when invoked go considers /home/dcooley/k8s-dev the path for go. This is how we can be sure that things like `go get k8s.io/kubernetes` will pull the src into that directory.
+I added the `GOPATH` variable to ensure that when invoked go considers `/home/dcooley/k8s-dev` the path for go. This is how we can be sure that things like `go get -d k8s.io/kubernetes sigs.k8s.io/kind` will pull the src into that directory.
 This is also important as when `kind` "discovers" the location of your checkout of `k8s.io/kubernetes` as part of the `kind build node-image` step it will follow the defined `GOPATH`.
 
-I am also prepending `${GOPATH}/bin` to the `${PATH}` variable. So that when we build kind the kind binary will be in our path.
+I am also prepending `${GOPATH}/bin` to the `${PATH}` variable. So that when we build `kind`. The `kind` binary will be in our path. You can also just put `kind` i
 
 ### Let's build our kind node-images
 
 Ok next up we need to build our images.
 
-Since we checked out `k8s.io/Kubernetes` into `${GOPATH/src/k8s.io/kubernetes}` we can just run `kind build node-image --image=mauilion/node:master`
+Since we checked out `k8s.io/kubernetes` into `${GOPATH}/src/k8s.io/kubernetes` we can just run `kind build node-image --image=mauilion/node:master`
 
 This will create an image in my local docker image cache named `mauilion/node:master`
 
@@ -98,13 +99,15 @@ Then we can switch to Andrews branch and build a new `kind node-image`
 
 Before we move on. Let's talk about what's happening when we run `kind build node-image --image=mauilion/node:77523`
 
-kind is setup to build this image using a container build of kubernetes. This means that kind will "detect" where your local checkout of k8s.io/kubernetes is and then mount that into a container and build all the bits.
+`kind` is setup to build this image using a container build of kubernetes. This means that `kind` will "detect" where your local checkout of `k8s.io/kubernetes` is via your `${GOPATH}` then mount that into a container and build all the bits.
 
 the node image will contain all binaries and images needed to run kubernetes as produced from your local checkout of the source.
 
 This is a PRETTY DARN COOL thing!
 
 This means that I can easily setup an environment that will allow me to dig into and validate particular behavior.
+
+Also this is a way to iterate over changes to the codebase.
 
 Alright let's move on.
 
@@ -125,7 +128,7 @@ kind/
     └── test.yaml
 ```
 
-In the cast below you can see that we are moving into the directory for each cluster. This is where the resources for this cluster are defined.
+In the cast below you can see that we are moving into the directory for each cluster. If you take a look at the .envrc in the directory you can see we are using direnv to export `KUBECONFIG` and configure `kubectl`. This is also where the resources for this cluster are defined.
 We then run something like:
 ```
 kind create cluster --config config --name=master --image=mauilion/node:master
@@ -171,7 +174,7 @@ There are 5 pods that we are deploying.
 `overlay-77523-worker`
 `overlay-77523-worker2`
 
-The echo pod is deploying [inanimate/echo-server](https://github.com/InAnimaTe/echo-server) and from the name you can see that this will be deployed worker2.
+The echo pod is using [inanimate/echo-server](https://github.com/InAnimaTe/echo-server) and from the name you can see that this will be deployed on worker2.
 
 The netshoot pods are set with `hostNetwork: True` This means that if you exec into the pod you can see the ip stack of the underlying node.
 
@@ -182,6 +185,8 @@ The netshoot and overlay pods are both using [nicolaka/netshoot](https://github.
 We also define a svc of type LoadBalancer in each of our clusters.
 
 for our `master` cluster we use `172.17.255.1:8080` and on the `77523` cluster it's `172.17.254.1:8080`
+
+I am using metallb for this you can read more about metallb [here](https://metallb.universe.tf/). More about how I use it with kind [here](https://mauilion.dev/posts/kind-metallb/)
 
 #### Let's test it!
 
