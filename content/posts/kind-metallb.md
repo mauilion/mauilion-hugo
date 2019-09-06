@@ -14,8 +14,10 @@ tags:
 ### Preamble:
 
 When using metallb with kind we are going to deploy it in `l2-mode`. This means that we need to be able to connect to the ip addresses of the node subnet.
-If you are using kind on Mac or Windows this will require you to add a route to your laptop routing the subnet used by your kind cluster to the vm that is hosting it.
 If you are using linux to host a kind cluster. You will not need to do this as the kind node ip addresses are directly attached.
+
+If you are using a Mac this tutorial may not be super useful as the way Docker Desktop works on a Mac doesn't expose the "docker network" to the underlying host. Due to this restriction I recommend that you make do with `kubectl proxy`
+
 
 ### Problem Statement:
 
