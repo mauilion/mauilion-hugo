@@ -224,7 +224,7 @@ We will:
 * recreate the kind cluster
 * show that we can restore the persistent volume
 
-{{< asciinema key="kind-pvc-default-hostpath" rows="35" preload="1" >}}
+{{< asciinema key="kind-pvc-hostpath" rows="35" preload="1" >}}
 
 ### Resources
 I am using kind version v0.8.1
