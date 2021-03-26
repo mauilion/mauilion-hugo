@@ -153,7 +153,7 @@ In this demo we will:
 * bring up the deployment and play with the data!
 * cleanup
 
-{{< asciinema key="kind-pvc-localdata-PVc" rows="35" preload="1" >}}
+{{< asciinema key="kind-pvc-localdata-pvc" rows="35" preload="1" >}}
 
 #### Persistent Volume Tricks!
 Ever wondered how to ensure that a specific Persistent Volume will connect to a
