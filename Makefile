@@ -25,7 +25,7 @@ build:
 
 run: build
 	@echo "\n\n${RUN_MSG}"
-	@docker run -v mauilion.dev:/out -p ${PORT}:80 ${IMG}
+	@docker run -v mauiliondev:/out -p ${PORT}:80 ${IMG}
 
 htmltest:
 ifdef EXTERNAL
